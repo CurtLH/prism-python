@@ -35,7 +35,3 @@ jobs:
         pip install pytest
         pip install .
         pytest
-    - uses: ammaraskar/sphinx-action@master
-      with:
-        build-command: "sphinx-build -b html . _build"
-        docs-folder: "docs/"
