@@ -10,6 +10,7 @@ Welcome to Prism-Python's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   install.rst
 
 
 Indices and tables
