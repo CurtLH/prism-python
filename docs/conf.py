@@ -34,9 +34,9 @@ import prism
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ["sphinx.ext.autodoc", "sphinx.ext.viewcode"]
 
-apidoc_module_dir = '../prism'
-apidoc_output_dir = 'reference'
-apidoc_excluded_paths = ['tests']
+apidoc_module_dir = "../prism"
+apidoc_output_dir = "reference"
+apidoc_excluded_paths = ["tests"]
 apidoc_separate_modules = True
 
 # Add any paths that contain templates here, relative to this directory.
