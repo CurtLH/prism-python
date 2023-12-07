@@ -7,9 +7,13 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: ammaraskar/sphinx-action@master
-      with:
-        pre-build-command: "python -m pip install -r requirements.txt && sphinx-apidoc -o ./source ../prism"
-        build-command: "sphinx-build -b html . _build -w /tmp/sphinx.log"
-        docs-folder: "docs/" 
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - name: Install dependencies
+        run: |
+          pip install -r docs/requirements.txt
+      - name: Sphinx build
+        run: |
+          cd docs
+          sphinx-apidoc -o ./source ../prism
+          sphinx-build -b html . _build -w /tmp/sphinx.log
