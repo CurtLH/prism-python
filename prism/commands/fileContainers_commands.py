@@ -62,7 +62,7 @@ def fileContainers_load(ctx, id, file):
     # Load the file and retrieve the ID - a new fID is
     # created if the command line ID was not specified.
     # Subsequent files are loaded into the same container (fID).
-    results = p.fileContainers_load(id=id, file=file)
+    results = p.fileContainers_load(filecontainer_id=id, file=file)
 
     # If the fID comes back blank, then something is not
     # working.  Note: any error messages have already

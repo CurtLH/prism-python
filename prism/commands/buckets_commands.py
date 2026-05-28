@@ -205,18 +205,19 @@ def buckets_complete(ctx, isname, bucket):
     """
     p = ctx.obj["p"]
 
+    bucket_ref = bucket
     if isname:
-        buckets = p.buckets_get(bucket_name=bucket, verbosity="full")
+        buckets = p.buckets_get(bucket_name=bucket, type_="full")
 
         if buckets["total"] == 0:
             bucket = None
         else:
             bucket = buckets["data"][0]
     else:
-        bucket = p.buckets_list(bucket_id=bucket)
+        bucket = p.buckets_get(bucket_id=bucket)
 
     if bucket is None:
-        logger.error(f"Bucket {bucket} not found.")
+        logger.error(f"Bucket {bucket_ref} not found.")
         sys.exit(1)
 
     bucket_state = bucket["state"]["descriptor"]
@@ -284,10 +285,11 @@ def buckets_status(ctx, isname, bucket):
 
         bucket = buckets["data"][0]
     else:
-        bucket = p.buckets_get(bucket_id=bucket)
+        bucket_id = bucket
+        bucket = p.buckets_get(bucket_id=bucket_id)
 
     if bucket is None:
-        logger.error(f"Bucket {bucket} not found.")
+        logger.error(f"Bucket {bucket_id} not found.")
         sys.exit(1)
 
     logger.info(bucket["state"]["descriptor"])
@@ -299,4 +301,5 @@ def buckets_name(ctx):
     """
     Generate a bucket name to use for other bucket operations.
     """
-    click.echo(ctx.obj["p"].buckets_gen_name())
+    import prism
+    click.echo(prism.buckets_gen_name())

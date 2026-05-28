@@ -110,7 +110,7 @@ def schema_compact(schema):
         compact_schema["fields"] = [fld for fld in compact_schema["fields"] if not fld["name"].startswith("WPA_")]
 
         for ordinal in range(len(compact_schema["fields"])):
-            fld = schema["fields"][ordinal]
+            fld = compact_schema["fields"][ordinal]
             fld["ordinal"] = ordinal + 1
 
             if "fieldId" in fld:
@@ -516,7 +516,7 @@ class Prism:
         # parameters to perform a search.
         params = {
             "limit": limit if isinstance(limit, int) and limit <= 100 else 20,
-            "offset": offset if isinstance(limit, int) and offset >= 0 else 0,
+            "offset": offset if isinstance(offset, int) and offset >= 0 else 0,
             "type": output_type,
         }
 
@@ -1266,7 +1266,7 @@ class Prism:
             True if data change task is valid or False if the task does not
             exist or is not valid.
         """
-        dct = self.dataChanges_validate(id)
+        dct = self.dataChanges_validate(datachange_id)
 
         if dct is None:
             logger.error(f"data_change_id {datachange_id} not found!")
@@ -1668,13 +1668,13 @@ def load_schema(p=None, file=None, source_name=None, source_id=None):
             return None
 
         if source_id is not None:
-            schema = p.tables_list(id=source_id, type_="full")  # Exact match on WID - and get the fields (full)
+            schema = p.tables_get(table_id=source_id, type_="full")  # Exact match on WID - and get the fields (full)
 
             if schema is None:
                 logger.error(f"Invalid --sourceId {source_id} : table not found.")
                 return None
         else:
-            tables = p.tables_list(name=source_name, type_="full")  # Exact match on API Name
+            tables = p.tables_get(table_name=source_name, type_="full")  # Exact match on API Name
 
             if tables["total"] == 0:
                 logger.error(f"Invalid --sourceName {source_name} : table not found.")

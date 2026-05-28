@@ -66,10 +66,11 @@ def tables_get(ctx, isname, table, limit, offset, type_, compact, search):
     if not isname and table is not None:
         # When using an ID, the GET:/tables operation returns a simple
         # dictionary of the table definition.
-        table = p.tables_get(table_id=table, type_=type_)
+        table_id = table
+        table = p.tables_get(table_id=table_id, type_=type_)
 
         if table is None:
-            logger.error(f"Table ID {table} not found.")
+            logger.error(f"Table ID {table_id} not found.")
             sys.exit(1)
 
         if compact:
@@ -83,12 +84,11 @@ def tables_get(ctx, isname, table, limit, offset, type_, compact, search):
         tables = p.tables_get(table_name=table, limit=limit, offset=offset, type_=type_, search=search)
 
         if tables["total"] == 0:
-            logger.error(f"Table ID {table} not found.")
+            logger.error(f"Table name {table} not found.")
             return
 
         if compact:
-            for tab in tables["data"]:
-                tab = schema_compact(tab)
+            tables["data"] = [schema_compact(tab) for tab in tables["data"]]
 
         logger.info(json.dumps(tables, indent=2))
 
@@ -184,7 +184,7 @@ def tables_edit(ctx, file, truncate):
     # command line.
     schema = load_schema(file=file)
 
-    table = p.tables_put(schema, truncate=truncate)
+    table = p.tables_put(schema)
 
     if table is None:
         logger.error("Error updating table.")

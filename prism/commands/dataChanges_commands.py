@@ -140,7 +140,7 @@ def dataChanges_run(ctx, dct, fid, isname):
 
     if isname:
         # See if we have any matching data change task by name (with minor clean-up).
-        data_changes = p.dataChanges_get(name=dct.replace(" ", "_"))
+        data_changes = p.dataChanges_get(datachange_name=dct.replace(" ", "_"))
 
         if data_changes["total"] != 1:
             logger.error(f"Data change task not found: {dct}")
@@ -191,7 +191,7 @@ def dataChanges_activities(ctx, dct, activityid, status, isname):
 
     if isname:
         # See if we have any matching data change task.
-        data_changes = p.dataChanges_list(name=dct.replace(" ", "_"))
+        data_changes = p.dataChanges_get(datachange_name=dct.replace(" ", "_"))
 
         if data_changes["total"] != 1:
             logger.error(f"Data change task not found: {dct}")
@@ -271,7 +271,7 @@ def dataChanges_upload(ctx, isname, dct, file, wait, verbose):
     logger.debug(f"new file container ID: {filecontainer_id}")
 
     # Execute the DCT.
-    activity = p.dataChanges_activities_post(datachange_id=dct_id, fileContainer_id=filecontainer_id)
+    activity = p.dataChanges_activities_post(datachange_id=dct_id, filecontainer_id=filecontainer_id)
 
     if "errors" in activity:
         # Add the ID of the DCT for easy identification.
