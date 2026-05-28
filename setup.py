@@ -5,7 +5,7 @@ with open("requirements.txt") as f:
 
 setup(
     name="prism",
-    version="0.3.0",
+    version="0.3.1",
     description="Python API client to load data into Prism.",
     author="Curtis Hampton, Mark Waldron, Jacinta Corbett, Mark Greynolds",
     author_email="CurtLHampton@gmail.com",
